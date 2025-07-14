@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 :root {
-    --ct-logo-lg-height: 42px;
-    --ct-logo-sm-height: 22px;
+    --ct-logo-lg-height: 52px;
+    --ct-logo-sm-height: 42px;
     --ct-leftbar-width: 260px;
     --ct-leftbar-width-md: 160px;
     --ct-leftbar-width-sm: 70px;
@@ -3058,8 +3058,8 @@ textarea.form-control-lg {
 .form-check-input:checked {
     background-color: #325B9C;
     border-color: #325B9C
-/* recordar */
-/* border-color: #325B9C */
+        /* recordar */
+        /* border-color: #325B9C */
 }
 
 .form-check-input:checked[type=checkbox] {
@@ -10342,10 +10342,12 @@ fieldset:disabled .btn {
     --ct-bg-opacity: 1;
     background-color: rgba(var(--ct-primary-rgb), var(--ct-bg-opacity)) !important
 }
+
 .bg-primaryempresa {
     --ct-bg-opacity: 1;
     background-color: rgba(var(--ct-primaryempresa-rgb), var(--ct-bg-opacity)) !important
 }
+
 .bg-secondary {
     --ct-bg-opacity: 1;
     background-color: rgba(var(--ct-secondary-rgb), var(--ct-bg-opacity)) !important
@@ -21387,6 +21389,11 @@ span.flatpickr-weekday {
 .select2-container .select2-search textarea::placeholder {
     color: var(--ct-gray-500)
 }
+.select2-container .select2-search--dropdown .select2-search__field {
+    pointer-events: auto !important;
+    opacity: 1 !important;
+}
+
 
 [dir=rtl] .select2-container--open .select2-dropdown {
     left: auto;

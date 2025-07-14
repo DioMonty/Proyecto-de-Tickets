@@ -9,24 +9,39 @@
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('backend/assets/images/logo-dark-sm.png')}}">
+    <link rel="shortcut icon" href="{{ asset('backend/assets/images/logo-dark-sm.png') }}">
 
-    <!-- Daterangepicker css -->
-    <link rel="stylesheet" href="{{asset('backend/assets/vendor/daterangepicker/daterangepicker.css')}}">
+    <!-- Bootstrap Datepicker CSS -->
+    <link href="{{ asset('backend/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 
-    <!-- Vector Map css -->
-    <link rel="stylesheet" href="{{asset('backend/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css')}}">
+    <!-- Daterangepicker CSS -->
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendor/daterangepicker/daterangepicker.css') }}">
 
-    <!-- Theme Config Js -->
-    <script src="{{asset('backend/assets/js/hyper-config.js')}}"></script>
+    <!-- Vector Map CSS -->
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}">
 
-    <!-- App css -->
-    <link href="{{asset('backend/assets/css/app-saas.min.css')}}" rel="stylesheet" type="text/css" id="app-style" />
+    <!-- Select2 CSS -->
+    <link href="{{ asset('backend/assets/vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 
-    <!-- Icons css -->
-    <link href="{{asset('backend/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
-    <!-- Plugin css -->
-    <link href="{{asset('backend/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <!-- Dropzone CSS (CDN) -->
+    <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet" />
+
+    <!-- Remixicon CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+
+    <!-- Theme Config JS -->
+    <script src="{{ asset('backend/assets/js/hyper-config.js') }}"></script>
+
+    <!-- App CSS -->
+    <link href="{{ asset('backend/assets/css/app-saas.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!-- Icons CSS -->
+    <link href="{{ asset('backend/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <!-- Datatables CSS -->
+    <link href="{{ asset('backend/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+
 
 </head>
 
@@ -851,26 +866,42 @@
         </div>
     </div>
 
-    <!-- Vendor js -->
-    <script src="{{asset('backend/assets/js/vendor.min.js')}}"></script>
+    <!-- Core Vendor JS -->
+    <script src="{{ asset('backend/assets/js/vendor.min.js') }}"></script>
 
-    <!-- Daterangepicker js -->
-    <script src="{{asset('backend/assets/vendor/daterangepicker/moment.min.js')}}"></script>
-    <script src="{{asset('backend/assets/vendor/daterangepicker/daterangepicker.js')}}"></script>
+    <!-- Datatables -->
+    <script src="{{ asset('backend/assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/pages/demo.datatable-init.js') }}"></script>
 
-    <!-- Dashboard App js -->
-    <script src="{{asset('backend/assets/js/pages/demo.dashboard.js')}}"></script>
+    <!-- Datepicker -->
+    <script src="{{ asset('backend/assets/vendor/daterangepicker/moment.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
-    <!-- Projects Analytics Dashboard App js -->
-    <script src="{{asset('backend/assets/js/pages/demo.dashboard-projects.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('backend/assets/vendor/select2/js/select2.min.js') }}"></script>
 
+    <!-- Dropzone -->
+    <script src="{{ asset('backend/assets/vendor/dropzone/min/dropzone.min.js') }}"></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
-    <!-- Projects Analytics Dashboard App js -->
-    <script src="{{asset('backend/assets/js/pages/demo.dashboard-projects.js')}}"></script>
+    <!-- Dropzone init (si usas uno) -->
+    <script src="{{ asset('backend/assets/js/ui/component.fileupload.js') }}"></script>
 
-    <!-- App js -->
-    <script src="{{asset('backend/assets/js/app.min.js')}}"></script>
+    <!-- Dashboards -->
+    <script src="{{ asset('backend/assets/js/pages/demo.dashboard.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/pages/demo.dashboard-projects.js') }}"></script>
 
+    <!-- App JS -->
+    <script src="{{ asset('backend/assets/js/app.min.js') }}"></script>
+    <script>
+        document.getElementById('reset-layout').addEventListener('click', function() {
+            document.getElementById('sidebaruser-check').checked = false;
+        });
+    </script>
 </body>
 
 </html>

@@ -20,53 +20,52 @@
     <!-- Icons css -->
     <link href="{{asset('backend/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
 
+
+
 </head>
 
 <body>
 
     <!-- NAVBAR START -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-        <div class="container">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center">
             <!-- Logo -->
             <a class="navbar-brand" href="https://www.rensar.biz/wp/" target="_blank" rel="noopener noreferrer">
-                <img src="{{asset('backend/assets/images/logo-dark.png')}}" alt="Logo" height="50">
+                <img src="{{ asset('backend/assets/images/logo-dark.png') }}" alt="Logo" height="62">
             </a>
 
-            <!-- Botón hamburguesa -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Contenido del navbar -->
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav ms-auto align-items-center gap-2 mt-3 mt-lg-0">
-                    @if (Route::has('login'))
-                    @auth
-                    <li class="nav-item">
-                        <a href="{{ url('/dashboard') }}" class="btn btn-sm btn-success rounded-pill d-flex align-items-center">
-                            <i class="mdi mdi-view-dashboard me-2"></i> Dashboard
-                        </a>
-                    </li>
-                    @else
-                    <li class="nav-item">
-                        <a href="{{ route('login') }}" class="btn btn-sm btn-primary rounded-pill d-flex align-items-center">
-                            <i class="mdi mdi-account me-2"></i> Iniciar Sesión
-                        </a>
-                    </li>
-                    @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a href="{{ route('register') }}" class="btn btn-sm btn-outline-primary rounded-pill d-flex align-items-center">
-                            <i class="mdi mdi-account-cog me-2"></i> Registrarse
-                        </a>
-                    </li>
-                    @endif
-                    @endauth
-                    @endif
-                </ul>
-            </div>
+            <!-- Contenido del navbar visible siempre -->
+            <ul class="navbar-nav ms-auto align-items-center gap-2 mt-3 mt-lg-0 d-flex flex-wrap">
+                @if (Route::has('login'))
+                @auth
+                <li class="nav-item d-grid" style="min-width: 160px;">
+                    <a href="{{ url('/dashboard') }}"
+                        class="btn btn-sm btn-success rounded-pill d-flex justify-content-center align-items-center w-100">
+                        <i class="mdi mdi-view-dashboard me-2"></i> Dashboard
+                    </a>
+                </li>
+                @else
+                <li class="nav-item d-grid" style="min-width: 160px;">
+                    <a href="{{ route('login') }}"
+                        class="btn btn-sm btn-primary rounded-pill d-flex justify-content-center align-items-center w-100">
+                        <i class="mdi mdi-account me-2"></i> Iniciar Sesión
+                    </a>
+                </li>
+                @if (Route::has('register'))
+                <li class="nav-item d-grid" style="min-width: 160px;">
+                    <a href="{{ route('register') }}"
+                        class="btn btn-sm btn-outline-primary rounded-pill d-flex justify-content-center align-items-center w-100">
+                        <i class="mdi mdi-account-cog me-2"></i> Registrarse
+                    </a>
+                </li>
+                @endif
+                @endauth
+                @endif
+            </ul>
         </div>
     </nav>
+
+
     <!-- NAVBAR END -->
 
     <!-- START HERO -->
@@ -81,7 +80,7 @@
                                 Consulting</span>
                         </div>
                         <h2 class="text-white fw-normal mb-4 mt-3 hero-title">
-                            Lidera la transformación digital con SAP
+                            Bienvenido a nuestro portar para clientes.
                         </h2>
 
                         <p class="mb-4 font-16 text-white-50">Especialistas en consultoría SAP que potencian la
@@ -152,12 +151,12 @@
         </div>
     </section>
     <!-- END SERVICES -->
-
     <!-- Vendor js -->
-    <script src="assets/js/vendor.min.js"></script>
+    <script src="{{asset('backend/assets/js/vendor.min.js')}}"></script>
 
     <!-- App js -->
-    <script src="assets/js/app.min.js"></script>
+    <script src="{{asset('backend/assets/js/app.min.js')}}"></script>
+
 
 </body>
 

@@ -63,13 +63,11 @@
             <div class="collapse" id="sidebarProjects">
                 <ul class="side-nav-second-level">
                     <li>
-                        <a href="#">Ver Tickets</a>
+                        <a href="{{route('admin.ticket')}}">Ver Tickets</a>
                     </li>
                     <li>
-                        <a href="#">Crear Tickets</a>
+                        <a href="{{route('admin.ticket.create')}}">Crear Tickets</a>
                     </li>
-
-
                 </ul>
             </div>
         </li>
@@ -84,19 +82,19 @@
             <div class="collapse" id="sidebarCrm">
                 <ul class="side-nav-second-level">
                     <li>
-                        <a href="pages-usuario.html">Usuarios</a>
+                        <a href="{{route('admin.users')}}">Usuarios</a>
                     </li>
                     <li>
-                        <a href="page-clientes.html">Clientes</a>
+                        <a href="{{route('admin.user_society')}}">Usuario Cliente</a>
                     </li>
                     <li>
-                        <a href="pages-sociedades.html">Sociedades</a>
+                        <a href="{{route('admin.cliente')}}">Clientes</a>
                     </li>
                     <li>
-                        <a href="page-solicitante.html">Solicitante</a>
+                        <a href="{{route('admin.society')}}">Sociedades</a>
                     </li>
                     <li>
-                        <a href="pages-consultor-sap.html">Consultor</a>
+                        <a href="{{route('admin.consultor')}}">Consultor</a>
                     </li>
                 </ul>
             </div>
@@ -133,9 +131,11 @@
                         <a href="pages-asignaciones.html">Asignaciones</a>
                     </li>
                     <li>
-                        <a href="#">Modulos</a>
+                        <a href="{{route('admin.modulo')}}">Modulos</a>
                     </li>
-
+                    <li>
+                        <a href="{{route('admin.estado')}}">Estados</a>
+                    </li>
                 </ul>
             </div>
         </li>
