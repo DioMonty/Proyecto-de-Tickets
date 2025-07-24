@@ -599,6 +599,7 @@ legend+* {
 
 ::file-selector-button {
     font: inherit;
+    
     -webkit-appearance: button
 }
 
@@ -3058,8 +3059,8 @@ textarea.form-control-lg {
 .form-check-input:checked {
     background-color: #325B9C;
     border-color: #325B9C
-/* recordar */
-/* border-color: #325B9C */
+        /* recordar */
+        /* border-color: #325B9C */
 }
 
 .form-check-input:checked[type=checkbox] {
@@ -10342,10 +10343,12 @@ fieldset:disabled .btn {
     --ct-bg-opacity: 1;
     background-color: rgba(var(--ct-primary-rgb), var(--ct-bg-opacity)) !important
 }
+
 .bg-primaryempresa {
     --ct-bg-opacity: 1;
     background-color: rgba(var(--ct-primaryempresa-rgb), var(--ct-bg-opacity)) !important
 }
+
 .bg-secondary {
     --ct-bg-opacity: 1;
     background-color: rgba(var(--ct-secondary-rgb), var(--ct-bg-opacity)) !important
@@ -22438,5 +22441,22 @@ span.flatpickr-weekday {
 .gantt-container .popup-wrapper .pointer {
     display: none
 }
+
+.form-switch .form-check-input {
+    width: 3rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: #1cc88a;
+    border-color: #1cc88a;
+}
+
+.switch-label {
+    font-weight: bold;
+    user-select: none;
+}
+
 
 /*# sourceMappingURL=app-saas.min.css.map */

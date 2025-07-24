@@ -60,21 +60,17 @@
                     <th>Nombre</th>
                     <th>Telefono</th>
                     <th>Correo Electronico</th>
-                    <th>Detalle</th>
                     <th>Sociedades</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-            @forelse($usuarios as $usuario)
+                @forelse($usuarios as $usuario)
                 <tr>
                     <td>{{ $usuario->username }}</td>
                     <td>{{ $usuario->name }}</td>
                     <td>{{ $usuario->phone }}</td>
                     <td>{{ $usuario->email }}</td>
-                    <td>
-                        <button type="button" class="btn btn-success">Ver Detalle</button>
-                    </td>
                     <td>
                         <button href="#" class="btn btn-info" data-bs-toggle="modal"
                             data-bs-target="#asignar-sociedad-modal-{{ $usuario->id }}">
@@ -90,6 +86,10 @@
                             data-bs-target="#warning-alert-modal-{{ $usuario->id }}">
                             <i class="mdi mdi-delete"></i>
                         </a>
+                        <a href="javascript:void(0);" class="action-icon" data-bs-toggle="modal" data-bs-target="#detalle-modal-{{ $usuario->id }}">
+                            <i class="mdi mdi-eye"></i>
+                        </a>
+
                     </td>
                 </tr>
 
@@ -113,7 +113,7 @@
                                             <select class="form-control select2" id="sociedad-select-{{ $usuario->id }}">
                                                 <option value="">-- Selecciona --</option>
                                                 @foreach ($sociedades as $soc)
-                                                    <option value="{{ $soc->id }}">{{ $soc->nombre_sociedad }}</option>
+                                                <option value="{{ $soc->id }}">{{ $soc->nombre_sociedad }}</option>
                                                 @endforeach
                                             </select>
                                             <button type="button" class="btn btn-primary"
@@ -130,25 +130,25 @@
                                     <h6>Sociedades Asignadas:</h6>
                                     <div id="lista-sociedades-{{ $usuario->id }}">
                                         @php
-                                            $asignadas = $idclientes
-                                                ->where('id_cliente', $usuario->id)
-                                                ->pluck('sociedad.nombre_sociedad', 'id_sociedad')
-                                                ->toArray();
+                                        $asignadas = $idclientes
+                                        ->where('id_cliente', $usuario->id)
+                                        ->pluck('sociedad.nombre_sociedad', 'id_sociedad')
+                                        ->toArray();
                                         @endphp
 
                                         @foreach ($asignadas as $idSociedad => $nombreSociedad)
-                                            <div class="form-check">
-                                                <input class="form-check-input sociedad-checkbox"
-                                                    type="checkbox"
-                                                    value="{{ $idSociedad }}"
-                                                    id="sociedad-{{ $usuario->id }}-{{ $idSociedad }}"
-                                                    checked
-                                                    onchange="actualizarJsonSociedades({{ $usuario->id }})">
-                                                <label class="form-check-label"
-                                                    for="sociedad-{{ $usuario->id }}-{{ $idSociedad }}">
-                                                    {{ $nombreSociedad }}
-                                                </label>
-                                            </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input sociedad-checkbox"
+                                                type="checkbox"
+                                                value="{{ $idSociedad }}"
+                                                id="sociedad-{{ $usuario->id }}-{{ $idSociedad }}"
+                                                checked
+                                                onchange="actualizarJsonSociedades({{ $usuario->id }})">
+                                            <label class="form-check-label"
+                                                for="sociedad-{{ $usuario->id }}-{{ $idSociedad }}">
+                                                {{ $nombreSociedad }}
+                                            </label>
+                                        </div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -163,8 +163,12 @@
                 </div>
 
                 <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        actualizarJsonSociedades({{ $usuario->id }});
+                    document.addEventListener("DOMContentLoaded", function() {
+                        actualizarJsonSociedades({
+                            {
+                                $usuario - > id
+                            }
+                        });
                     });
                 </script>
 
@@ -196,55 +200,48 @@
                 </div>
 
                 <!-- Modal editar usuario -->
-                <div id="editar-modal-{{$usuario->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <!-- Modal detalle usuario -->
+                <div id="detalle-modal-{{$usuario->id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header text-center">
-                                <h4 class="modal-title" style="color: black;">Editar Usuario</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <h4 class="modal-title" style="color: black;">Detalle del Usuario</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                             </div>
                             <div class="modal-body">
-                                <form class="ps-3 pe-3" action="{{ route('admin.user_society.update', $usuario->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
+                                <div class="ps-3 pe-3">
+
                                     <div class="mb-3">
-                                        <label for="username" class="form-label">Nombre</label>
-                                        <input class="form-control" type="text" name="nombre" value="{{$usuario->nombre}}" required
-                                            placeholder="Nombre del cliente">
+                                        <label for="nombre" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control bg-light border-0" value="{{ $usuario->nombre}}" readonly tabindex="-1">
                                     </div>
+
                                     <div class="mb-3">
-                                        <label for="apellido" class="form-label">Apellido</label>
-                                        <input class="form-control" type="text" name="apellido" value="{{$usuario->apellido}}"
-                                            placeholder="Apellido del cliente">
+                                        <label for="username" class="form-label">Nombre de Usuario</label>
+                                        <input type="text" class="form-control bg-light border-0" value="{{ $usuario->username}}" readonly tabindex="-1">
                                     </div>
+
                                     <div class="mb-3">
-                                        <label for="username-add" class="form-label">Nombre de Usuario</label>
-                                        <input class="form-control" type="text" name="username" value="{{$usuario->username}}" required
-                                            placeholder="Ingrese el nombre de usuario">
+                                        <label for="telefono" class="form-label">Teléfono</label>
+                                        <input type="text" class="form-control bg-light border-0" value="{{ $usuario->phone}}" readonly tabindex="-1">
                                     </div>
+
                                     <div class="mb-3">
-                                        <label for="rol" class="form-label">Telefono</label>
-                                        <input class="form-control" type="text" name="phone" value="{{$usuario->phone}}"
-                                            placeholder="Ingrese el telefono">
+                                        <label for="email" class="form-label">Correo Electrónico</label>
+                                        <input type="text" class="form-control bg-light border-0" value="{{ $usuario->email}}" readonly tabindex="-1">
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="emailaddress" class="form-label">Correo Electrónico</label>
-                                        <input class="form-control" type="email" name="email" value="{{$usuario->email}}" required
-                                            placeholder="john@deo.com">
-                                    </div>
-                                    <div class="modal-footer d-flex justify-content-center">
-                                        <button type="button" class="btn btn-light"
-                                            data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-success">Actualizar</button>
-                                    </div>
-                                </form>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            @empty
-            @endforelse
+
+                @empty
+                @endforelse
             </tbody>
 
         </table>
@@ -284,7 +281,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="phone-add" class="form-label">Teléfono</label>
-                            <input class="form-control" type="text" name="phone" 
+                            <input class="form-control" type="text" name="phone"
                                 placeholder="Ingrese el número de teléfono">
                         </div>
                         <div class="mb-3">
@@ -311,56 +308,56 @@
 </div> <!-- content -->
 @endsection
 <script>
-function agregarSociedad(userId) {
-    const select = document.getElementById(`sociedad-select-${userId}`);
-    const selectedValue = select.value;
-    const selectedText = select.options[select.selectedIndex].text;
+    function agregarSociedad(userId) {
+        const select = document.getElementById(`sociedad-select-${userId}`);
+        const selectedValue = select.value;
+        const selectedText = select.options[select.selectedIndex].text;
 
-    if (!selectedValue) return;
+        if (!selectedValue) return;
 
-    // Evitar duplicados
-    if (document.getElementById(`sociedad-${userId}-${selectedValue}`)) {
-        alert("Esta sociedad ya ha sido agregada.");
-        return;
+        // Evitar duplicados
+        if (document.getElementById(`sociedad-${userId}-${selectedValue}`)) {
+            alert("Esta sociedad ya ha sido agregada.");
+            return;
+        }
+
+        const listaDiv = document.getElementById(`lista-sociedades-${userId}`);
+
+        // Crear checkbox dinámico
+        const container = document.createElement('div');
+        container.classList.add('form-check');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'form-check-input sociedad-checkbox';
+        checkbox.value = selectedValue;
+        checkbox.id = `sociedad-${userId}-${selectedValue}`;
+        checkbox.checked = true;
+        checkbox.setAttribute('onchange', `actualizarJsonSociedades(${userId})`);
+
+        const label = document.createElement('label');
+        label.className = 'form-check-label';
+        label.htmlFor = checkbox.id;
+        label.textContent = selectedText;
+
+        container.appendChild(checkbox);
+        container.appendChild(label);
+        listaDiv.appendChild(container);
+
+        actualizarJsonSociedades(userId);
     }
 
-    const listaDiv = document.getElementById(`lista-sociedades-${userId}`);
+    function actualizarJsonSociedades(userId) {
+        const checkboxes = document.querySelectorAll(`#lista-sociedades-${userId} .sociedad-checkbox`);
+        const inputHidden = document.getElementById(`sociedades-json-${userId}`);
 
-    // Crear checkbox dinámico
-    const container = document.createElement('div');
-    container.classList.add('form-check');
+        const seleccionadas = [];
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                seleccionadas.push(cb.value);
+            }
+        });
 
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.className = 'form-check-input sociedad-checkbox';
-    checkbox.value = selectedValue;
-    checkbox.id = `sociedad-${userId}-${selectedValue}`;
-    checkbox.checked = true;
-    checkbox.setAttribute('onchange', `actualizarJsonSociedades(${userId})`);
-
-    const label = document.createElement('label');
-    label.className = 'form-check-label';
-    label.htmlFor = checkbox.id;
-    label.textContent = selectedText;
-
-    container.appendChild(checkbox);
-    container.appendChild(label);
-    listaDiv.appendChild(container);
-
-    actualizarJsonSociedades(userId);
-}
-
-function actualizarJsonSociedades(userId) {
-    const checkboxes = document.querySelectorAll(`#lista-sociedades-${userId} .sociedad-checkbox`);
-    const inputHidden = document.getElementById(`sociedades-json-${userId}`);
-
-    const seleccionadas = [];
-    checkboxes.forEach(cb => {
-        if (cb.checked) {
-            seleccionadas.push(cb.value);
-        }
-    });
-
-    inputHidden.value = JSON.stringify(seleccionadas);
-}
+        inputHidden.value = JSON.stringify(seleccionadas);
+    }
 </script>

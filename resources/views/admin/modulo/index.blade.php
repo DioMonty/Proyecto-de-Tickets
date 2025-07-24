@@ -62,22 +62,23 @@
                             <i class="mdi mdi-eye"></i>
                         </a>
                     </td>
-                    
-                
+
+
                     <td class="table-action">
-                        <div>
+                        <div class="form-check form-switch d-flex ">
                             <input type="checkbox"
                                 id="switch03-{{ $modulo->id }}"
-                                data-switch="success"
-                                {{ $modulo->estado ? 'checked' : '' }}>
-                            <label for="switch03-{{ $modulo->id }}"
-                                data-on-label="Si"
-                                data-off-label="No"
-                                class="mb-0 d-block"></label>
+                                class="form-check-input"
+                                {{ $modulo->estado ? 'checked' : '' }}
+                                onchange="toggleLabel(this)">
+                            <label for="switch03-{{ $modulo->id }}" class="switch-label mb-0 ms-2">
+                                {{ $modulo->estado ? 'Sí' : 'No' }}
+                            </label>
                         </div>
+
                     </td>
-                
-            
+
+
 
                 </tr>
                 <!-- Modal de confirmación eliminar -->
@@ -199,4 +200,10 @@
     </div>
 
 </div> <!-- content -->
+<script>
+    function toggleLabel(checkbox) {
+        const label = checkbox.nextElementSibling;
+        label.textContent = checkbox.checked ? 'Sí' : 'No';
+    }
+</script>
 @endsection

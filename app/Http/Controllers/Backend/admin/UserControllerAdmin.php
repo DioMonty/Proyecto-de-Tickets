@@ -16,7 +16,7 @@ class UserControllerAdmin extends Controller
     public function index()
     {
         //$users = Usuario::where('status', 'active')->get();
-        $users = Usuario::where('status', 'active')
+        $administradores = Usuario::where('role', 'admin')
             ->get()
             ->map(function ($user) {
             $nameParts = explode(',', $user->name, 2);
@@ -24,7 +24,23 @@ class UserControllerAdmin extends Controller
             $user->apellido = isset($nameParts[1]) ? trim($nameParts[1]) : '';
             return $user;
             });
-        return view('admin.users.index', compact('users'));
+            $consultores = Usuario::where('role', 'consultor')
+            ->get()
+            ->map(function ($user) {
+            $nameParts = explode(',', $user->name, 2);
+            $user->nombre = isset($nameParts[0]) ? trim($nameParts[0]) : '';
+            $user->apellido = isset($nameParts[1]) ? trim($nameParts[1]) : '';
+            return $user;
+            });
+            $users = Usuario::where('role', 'user')
+            ->get()
+            ->map(function ($user) {
+            $nameParts = explode(',', $user->name, 2);
+            $user->nombre = isset($nameParts[0]) ? trim($nameParts[0]) : '';
+            $user->apellido = isset($nameParts[1]) ? trim($nameParts[1]) : '';
+            return $user;
+            });
+        return view('admin.users.index', compact('users', 'administradores', 'consultores'));
     }
 
     /**

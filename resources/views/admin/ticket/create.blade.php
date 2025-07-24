@@ -195,7 +195,7 @@
                                         </div>
                                     </div>
                                     <!-- Fin de plantilla -->
-                                </div>
+                                </div> 
                                 <div class="row">
                                     <!-- Date View -->
                                     <div class="col-12 col-lg-6 mt-3">

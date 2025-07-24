@@ -870,6 +870,10 @@
 
     <!-- App js -->
     <script src="{{asset('backend/assets/js/app.min.js')}}"></script>
+    
+    <!-- Datatable Init js -->
+    <script src="{{asset('public/backend/assets/js/pages/demo.datatable-init.js')}}"></script>
+
 
 </body>
 

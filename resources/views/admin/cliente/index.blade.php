@@ -61,7 +61,6 @@
                     <th>RUC</th>
                     <th>Direccion</th>
                     <th>Email</th>
-                    <th>Detalle</th>
                     <th></th>
                 </tr>
             </thead>
@@ -133,7 +132,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="emailaddress" class="form-label">Razon Social</label>
-                                        <input class="form-control" type="text" name="razon_social" value="{{ $cliente->razon_social }}" 
+                                        <input class="form-control" type="text" name="razon_social" value="{{ $cliente->razon_social }}"
                                             placeholder="Ingrese su razon Social">
                                     </div>
                                     <div class="mb-3">
@@ -168,11 +167,12 @@
     </div> <!-- container -->
 
     <!-- Modal agregar usuario -->
+    <!-- Modal agregar usuario -->
     <div id="agregar-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title" style="color: black;">Agregar Sociedad</h4>
+                    <h4 class="modal-title" style="color: black;">Agregar Cliente</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -216,4 +216,7 @@
     </div>
 
 </div> <!-- content -->
+
+
 @endsection
+
