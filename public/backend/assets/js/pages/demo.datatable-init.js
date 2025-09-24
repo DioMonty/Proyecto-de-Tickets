@@ -14,35 +14,6 @@ $(document).ready(function () {
             );
         },
     });
-    $("#basic-datatable-two").DataTable({
-        keys: !0,
-        language: {
-            paginate: {
-                previous: "<i class='mdi mdi-chevron-left'>",
-                next: "<i class='mdi mdi-chevron-right'>",
-            },
-        },
-        drawCallback: function () {
-            $(".dataTables_paginate > .pagination").addClass(
-                "pagination-rounded"
-            );
-        },
-        
-    });
-    $("#basic-datatable-three").DataTable({
-        keys: !0,
-        language: {
-            paginate: {
-                previous: "<i class='mdi mdi-chevron-left'>",
-                next: "<i class='mdi mdi-chevron-right'>",
-            },
-        },
-        drawCallback: function () {
-            $(".dataTables_paginate > .pagination").addClass(
-                "pagination-rounded"
-            );
-        },
-    });
     var a = $("#datatable-buttons").DataTable({
         lengthChange: !1,
         buttons: ["copy", "print"],

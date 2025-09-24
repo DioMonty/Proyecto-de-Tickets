@@ -19363,7 +19363,7 @@ html[data-theme=dark] .text-secondary {
     width: 13px;
     height: 13px;
     margin: 32px 3px;
-    background: var(--ct-primary);
+    background: #121C4D;
     border-radius: 50%;
     -webkit-animation: bouncing-loader .6s infinite alternate;
     animation: bouncing-loader .6s infinite alternate
@@ -19372,13 +19372,13 @@ html[data-theme=dark] .text-secondary {
 .bouncing-loader>div:nth-child(2) {
     -webkit-animation-delay: .2s;
     animation-delay: .2s;
-    background: #fa5c7c
+    background: #325B9C
 }
 
 .bouncing-loader>div:nth-child(3) {
     -webkit-animation-delay: .4s;
     animation-delay: .4s;
-    background: #0acf97
+    background: #F64F00
 }
 
 .hero-section {

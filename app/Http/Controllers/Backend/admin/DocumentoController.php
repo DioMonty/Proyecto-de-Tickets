@@ -3,64 +3,22 @@
 namespace App\Http\Controllers\Backend\admin;
 
 use App\Models\Documento;
+use App\Models\EstadoFechaTicket;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Crypt;
 
 class DocumentoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    
+    public function documentDeleteTicket($id)
     {
-        //
-    }
+        $documentos = Documento::findOrFail($id);
+        $estadoTicket = EstadoFechaTicket::where('id', $documentos->id_ticket_estado)->first();
+        $documentos->update([
+            'estado' => false,
+        ]);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Documento $documento)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Documento $documento)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Documento $documento)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Documento $documento)
-    {
-        //
+        return redirect()->route('admin.ticket.show', ['id' => Crypt::encrypt($estadoTicket->id_ticket)])->with('success', 'Documento eliminado correctamente.');
     }
 }

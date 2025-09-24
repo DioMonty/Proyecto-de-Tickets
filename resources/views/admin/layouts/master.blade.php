@@ -3,49 +3,64 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Dashboard | Rensar Consulting</title>
+    <title>@yield('title', 'Dashboard | Rensar Consulting')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('backend/assets/images/logo-dark-sm.png') }}">
+<link rel="shortcut icon" href="{{ asset('backend/assets/images/logo-dark-sm.png') }}">
 
-    <!-- Bootstrap Datepicker CSS -->
-    <link href="{{ asset('backend/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- Bootstrap Datepicker CSS -->
+<link href="{{ asset('backend/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 
-    <!-- Daterangepicker CSS -->
-    <link rel="stylesheet" href="{{ asset('backend/assets/vendor/daterangepicker/daterangepicker.css') }}">
+<!-- Daterangepicker CSS -->
+<link rel="stylesheet" href="{{ asset('backend/assets/vendor/daterangepicker/daterangepicker.css') }}">
 
-    <!-- Vector Map CSS -->
-    <link rel="stylesheet" href="{{ asset('backend/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}">
+<!-- Vector Map CSS -->
+<link rel="stylesheet" href="{{ asset('backend/assets/vendor/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}">
 
-    <!-- Select2 CSS -->
-    <link href="{{ asset('backend/assets/vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- Select2 CSS -->
+<link href="{{ asset('backend/assets/vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 
-    <!-- Dropzone CSS (CDN) -->
-    <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet" />
+<!-- Dropzone CSS (CDN) -->
+<link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet" />
 
-    <!-- Remixicon CSS (CDN) -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+<!-- Remixicon CSS (CDN) -->
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
 
-    <!-- Theme Config JS -->
-    <script src="{{ asset('backend/assets/js/hyper-config.js') }}"></script>
+<!-- Theme Config JS -->
+<script src="{{ asset('backend/assets/js/hyper-config.js') }}"></script>
 
-    <!-- App CSS -->
-    <link href="{{ asset('backend/assets/css/app-saas.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
+<!-- App CSS -->
+<link href="{{ asset('backend/assets/css/app-saas.min.css') }}" rel="stylesheet" type="text/css" id="app-style" />
 
-    <!-- Icons CSS -->
-    <link href="{{ asset('backend/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- Icons CSS -->
+<link href="{{ asset('backend/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
-    <!-- Datatables CSS -->
-    <link href="{{ asset('backend/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('backend/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- Datatables CSS -->
+<link href="{{ asset('backend/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('backend/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 
 </head>
 
 <body>
+    <!-- Pre-loader -->
+    <div id="preloader">
+        <div id="status">
+            <div class="bouncing-loader">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader-->
     <!-- Begin page -->
     <div class="wrapper">
 
@@ -488,7 +503,7 @@
                                             </span>
                                             <span class="flex-grow-1">
                                                 <span class="d-flex h-100 flex-column">
-                                                    <span class="bg-primary bg-gradient d-block p-1"></span>
+                                                    <span class="bg-primaryempresa bg-gradient d-block p-1"></span>
                                                 </span>
                                             </span>
                                         </span>
@@ -631,7 +646,7 @@
                                             <span class="d-flex h-100">
                                                 <span class="flex-shrink-0">
                                                     <span
-                                                        class="bg-primary bg-gradient d-flex h-100 flex-column p-1 px-2">
+                                                        class="bg-primaryempresa bg-gradient d-flex h-100 flex-column p-1 px-2">
                                                         <span class="d-block p-1 bg-light-lighten rounded mb-1"></span>
                                                         <span
                                                             class="d-block border opacity-25 rounded border-3 w-100 mb-1"></span>
@@ -867,41 +882,40 @@
     </div>
 
     <!-- Core Vendor JS -->
-    <script src="{{ asset('backend/assets/js/vendor.min.js') }}"></script>
+<script src="{{ asset('backend/assets/js/vendor.min.js') }}"></script>
 
-    <!-- Datatables -->
-    <script src="{{ asset('backend/assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/pages/demo.datatable-init.js') }}"></script>
+<!-- Datatables -->
+<script src="{{ asset('backend/assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('backend/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('backend/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('backend/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('backend/assets/js/pages/demo.datatable-init.js') }}"></script>
 
-    <!-- Datepicker -->
-    <script src="{{ asset('backend/assets/vendor/daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/vendor/daterangepicker/daterangepicker.js') }}"></script>
-    <script src="{{ asset('backend/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+<!-- Datepicker -->
+<script src="{{ asset('backend/assets/vendor/daterangepicker/moment.min.js') }}"></script>
+<script src="{{ asset('backend/assets/vendor/daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ asset('backend/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
-    <!-- Select2 -->
-    <script src="{{ asset('backend/assets/vendor/select2/js/select2.min.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ asset('backend/assets/vendor/select2/js/select2.min.js') }}"></script>
 
-    <!-- Dropzone -->
-    <script src="{{ asset('backend/assets/vendor/dropzone/min/dropzone.min.js') }}"></script>
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<!-- Dropzone -->
+<script src="{{ asset('backend/assets/vendor/dropzone/min/dropzone.min.js') }}"></script>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
-    <!-- Dropzone init (si usas uno) -->
-    <script src="{{ asset('backend/assets/js/ui/component.fileupload.js') }}"></script>
 
-    <!-- Dashboards -->
-    <script src="{{ asset('backend/assets/js/pages/demo.dashboard.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/pages/demo.dashboard-projects.js') }}"></script>
+<!-- Dropzone init (si usas uno) -->
+<script src="{{ asset('backend/assets/js/ui/component.fileupload.js') }}"></script>
 
-    <!-- App JS -->
-    <script src="{{ asset('backend/assets/js/app.min.js') }}"></script>
-    <script>
-        document.getElementById('reset-layout').addEventListener('click', function() {
-            document.getElementById('sidebaruser-check').checked = false;
-        });
-    </script>
+<!-- Dashboards -->
+<script src="{{ asset('backend/assets/js/pages/demo.dashboard.js') }}"></script>
+<script src="{{ asset('backend/assets/js/pages/demo.dashboard-projects.js') }}"></script>
+
+<!-- App JS -->
+<script src="{{ asset('backend/assets/js/app.min.js') }}"></script>
+
+    
+
 </body>
 
 </html>

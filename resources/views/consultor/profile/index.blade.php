@@ -11,10 +11,12 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Rensar Consulting</a></li>
-                            <li class="breadcrumb-item active">Mi Cuenta</li>
-                        </ol>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#"><i class="uil-home-alt"></i> Mi Cuenta</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Informacion Personal</li>
+                            </ol>
+                        </nav>
                     </div>
                     <h4 class="page-title">Mi Cuenta</h4>
                 </div>
@@ -33,8 +35,7 @@
                         <p class="text-muted font-14">{{Auth::user()->role}}</p>
 
                         <div class="text-start mt-3">
-                            <p class="text-muted mb-2 font-13"><strong>Telefono :</strong><span class="ms-2">(123)
-                                    123 1234</span></p>
+                            <p class="text-muted mb-2 font-13"><strong>Telefono :</strong><span class="ms-2">{{ Auth::user()->phone ?? 'Sin número'}}</span></p>
 
                             <p class="text-muted mb-2 font-13"><strong>Correo Electronico :</strong> <span class="ms-2 ">{{Auth::user()->email}}</span></p>
 
@@ -73,11 +74,25 @@
                                     </div> <!-- end row -->
 
 
+                                    @php
+                                    $completo = Auth::user()->name;
+                                    $nameParts = explode(',', $completo, 2);
+                                    $nombre = isset($nameParts[0]) ? trim($nameParts[0]) : '';
+                                    $apellido = isset($nameParts[1]) ? trim($nameParts[1]) : '';    
+                                    @endphp
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label for="firstname" class="form-label">Nombres y Apellidos</label>
-                                                <input name="name" type="text" class="form-control" id="firstname" placeholder="Ingresa tu nombre" value="{{Auth::user()->name}}">
+                                                <label for="firstname" class="form-label">Nombres</label>
+                                                <input name="name" type="text" class="form-control" id="firstname" placeholder="Ingresa tu nombre" value="{{$nombre}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="apellido" class="form-label">Apellidos</label>
+                                                <input name="apellido" type="text" class="form-control" id="apellido"
+                                                placeholder="Ingresa tus apellidos"
+                                                value="{{ $apellido }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -122,23 +137,51 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Contraseña Actual</label>
-                                                <input name="current_password" type="password" class="form-control" value="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Nueva Contraseña</label>
-                                                <input name="password" type="password" class="form-control" value="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label">Confirmar Nueva Contraseña</label>
-                                                <input name="password_confirmation" type="password" class="form-control" value="">
+                                                <label for="current_password" class="form-label">Contraseña Actual</label>
+                                                <div class="input-group input-group-merge">
+                                                    <input name="current_password"
+                                                        type="password"
+                                                        id="current_password"
+                                                        class="form-control"
+                                                        placeholder="Ingresa tu contraseña actual">
+                                                    <span class="input-group-text toggle-password" role="button">
+                                                        <i class="mdi mdi-eye-off"></i>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
 
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Nueva Contraseña</label>
+                                                <div class="input-group input-group-merge">
+                                                    <input name="password"
+                                                        type="password"
+                                                        id="password"
+                                                        class="form-control"
+                                                        placeholder="Ingresa tu nueva contraseña">
+                                                    <span class="input-group-text toggle-password" role="button">
+                                                        <i class="mdi mdi-eye-off"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="password_confirmation" class="form-label">Confirmar Nueva Contraseña</label>
+                                                <div class="input-group input-group-merge">
+                                                    <input name="password_confirmation"
+                                                        type="password"
+                                                        id="password_confirmation"
+                                                        class="form-control"
+                                                        placeholder="Repite tu nueva contraseña">
+                                                    <span class="input-group-text toggle-password" role="button">
+                                                        <i class="mdi mdi-eye-off"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="text-end">
                                         <button type="submit" class="btn btn-success mt-2"><i class="mdi mdi-content-save"></i>Confirmar la Contraseña</button>
@@ -161,4 +204,25 @@
 <!-- container -->
 
 </div>
+
+
+<script>
+document.addEventListener('click', function(e) {
+    const toggle = e.target.closest('.toggle-password');
+    if (!toggle) return;
+
+    const input = toggle.closest('.input-group').querySelector('input');
+    const icon = toggle.querySelector('i');
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("mdi-eye-off");
+        icon.classList.add("mdi-eye");
+    } else {
+        input.type = "password";
+        icon.classList.remove("mdi-eye");
+        icon.classList.add("mdi-eye-off");
+    }
+});
+</script>
 @endsection

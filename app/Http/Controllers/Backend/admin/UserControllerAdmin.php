@@ -10,9 +10,6 @@ use App\Http\Controllers\Controller;
 
 class UserControllerAdmin extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         //$users = Usuario::where('status', 'active')->get();
@@ -43,17 +40,6 @@ class UserControllerAdmin extends Controller
         return view('admin.users.index', compact('users', 'administradores', 'consultores'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -66,7 +52,12 @@ class UserControllerAdmin extends Controller
             'rol' => 'required|string|max:50',
         ]);
 
-        $name = $request->name_user . ' ' . $request->lastname_user;
+        $request->name_user = strtoupper($request->name_user);
+        $request->lastname_user = strtoupper($request->lastname_user);
+        $request->username = strtoupper($request->username);
+
+
+        $name = $request->name_user . ', ' . $request->lastname_user;
         $user = Usuario::create([
             'name' => $name,
             'username' => $request->username ?? null, 
@@ -96,25 +87,6 @@ class UserControllerAdmin extends Controller
         return redirect()->route('admin.users')->with('success', 'Usuario creado exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Usuario $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Consultor $consultor)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -125,7 +97,12 @@ class UserControllerAdmin extends Controller
             'phone' => 'nullable|string|min:8',
         ]);
 
+        $request->name_user = strtoupper($request->name_user);
+        $request->lastname_user = strtoupper($request->lastname_user);
+        $request->username = strtoupper($request->username);
+
         $user = Usuario::findOrFail($id);
+        $user_data = Usuario::where('id', $id)->first();
         $name = $request->name_user . ', ' . $request->lastname_user;
         $user->update([
             'name' => $name,
@@ -133,15 +110,32 @@ class UserControllerAdmin extends Controller
             'phone' => $request->phone ?? null,
             'email' => $request->email,
         ]);
+        if($user_data->role === 'consultor'){
+            $consultor_data = Consultor::where('id_usuario', $id)->first();
+            $consultor = Consultor::findOrFail($consultor_data->id);
+            
+            $consultor->update([
+                'telefono' => $request->phone ?? null,
+            ]);
+        }
 
         return redirect()->route('admin.users')->with('success', 'Usuario actualizado exitosamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Consultor $consultor)
+    public function status(Request $request, $id)
     {
-        //
+        $user = Usuario::findOrFail($id);
+
+        $newStatus = filter_var($request->estado, FILTER_VALIDATE_BOOLEAN) ? 'active' : 'inactive';
+
+        $user->update([
+            'status' => $newStatus,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'status' => $user->status, 
+        ]);
     }
+
 }

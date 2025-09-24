@@ -10,7 +10,6 @@ class FacturaTicket extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_ticket',
         'numero_factura',
         'fecha_factura',
         'estado',

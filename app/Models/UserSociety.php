@@ -10,6 +10,7 @@ class UserSociety extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id_usuario',
         'id_cliente',
         'id_sociedad',
         'estado',
@@ -17,7 +18,11 @@ class UserSociety extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'id_cliente');
+        return $this->belongsTo(Usuario::class, 'id_usuario');
+    }
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'id_cliente');
     }
 
     public function sociedad()

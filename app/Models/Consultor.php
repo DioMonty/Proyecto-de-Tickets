@@ -19,6 +19,7 @@ class Consultor extends Model
         'cta_banco',
         'cta_cci',
         'cta_detraccion',
+        'costo',
         'estado',
     ];
 

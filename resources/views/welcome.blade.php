@@ -28,44 +28,50 @@
 
     <!-- NAVBAR START -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-        <div class="container d-flex flex-wrap justify-content-between align-items-center">
+        <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="https://www.rensar.biz/wp/" target="_blank" rel="noopener noreferrer">
                 <img src="{{ asset('backend/assets/images/logo-dark.png') }}" alt="Logo" height="62">
             </a>
 
-            <!-- Contenido del navbar visible siempre -->
-            <ul class="navbar-nav ms-auto align-items-center gap-2 mt-3 mt-lg-0 d-flex flex-wrap">
-                @if (Route::has('login'))
-                @auth
-                <li class="nav-item d-grid" style="min-width: 160px;">
-                    <a href="{{ url('/dashboard') }}"
-                        class="btn btn-sm btn-success rounded-pill d-flex justify-content-center align-items-center w-100">
-                        <i class="mdi mdi-view-dashboard me-2"></i> Dashboard
-                    </a>
-                </li>
-                @else
-                <li class="nav-item d-grid" style="min-width: 160px;">
-                    <a href="{{ route('login') }}"
-                        class="btn btn-sm btn-primary rounded-pill d-flex justify-content-center align-items-center w-100">
-                        <i class="mdi mdi-account me-2"></i> Iniciar Sesión
-                    </a>
-                </li>
-                @if (Route::has('register'))
-                <li class="nav-item d-grid" style="min-width: 160px;">
-                    <a href="{{ route('register') }}"
-                        class="btn btn-sm btn-outline-primary rounded-pill d-flex justify-content-center align-items-center w-100">
-                        <i class="mdi mdi-account-cog me-2"></i> Registrarse
-                    </a>
-                </li>
-                @endif
-                @endauth
-                @endif
-            </ul>
+            <!-- Botón hamburguesa -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Contenido del navbar -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto align-items-center gap-2 mt-3 mt-lg-0">
+                    @if (Route::has('login'))
+                    @auth
+                    <li class="nav-item d-grid" style="min-width: 160px;">
+                        <a href="{{ url('/dashboard') }}"
+                            class="btn btn-sm btn-success rounded-pill d-flex justify-content-center align-items-center w-100">
+                            <i class="mdi mdi-view-dashboard me-2"></i> Dashboard
+                        </a>
+                    </li>
+                    @else
+                    <li class="nav-item d-grid" style="min-width: 160px;">
+                        <a href="{{ route('login') }}"
+                            class="btn btn-sm btn-primary rounded-pill d-flex justify-content-center align-items-center w-100">
+                            <i class="mdi mdi-account me-2"></i> Iniciar Sesión
+                        </a>
+                    </li>
+                    @if (Route::has('register'))
+                    <li class="nav-item d-grid" style="min-width: 160px;">
+                        <a href="{{ route('register') }}"
+                            class="btn btn-sm btn-outline-primary rounded-pill d-flex justify-content-center align-items-center w-100">
+                            <i class="mdi mdi-account-cog me-2"></i> Registrarse
+                        </a>
+                    </li>
+                    @endif
+                    @endauth
+                    @endif
+                </ul>
+            </div>
         </div>
     </nav>
-
-
     <!-- NAVBAR END -->
 
     <!-- START HERO -->
@@ -80,7 +86,7 @@
                                 Consulting</span>
                         </div>
                         <h2 class="text-white fw-normal mb-4 mt-3 hero-title">
-                            Bienvenido a nuestro portar para clientes.
+                            Bienvenido a nuestro portal para clientes.
                         </h2>
 
                         <p class="mb-4 font-16 text-white-50">Especialistas en consultoría SAP que potencian la

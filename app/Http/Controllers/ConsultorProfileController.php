@@ -17,6 +17,7 @@ class ConsultorProfileController extends Controller
     {   
         $request->validate([
             'name'=> ['required','max:100'],
+            'apellido'=> ['max:100'],
             'email' => ['required','email','unique:users,email,'.Auth::user()->id],
             'image' => ['image','max:2048']
         ]);
@@ -37,7 +38,10 @@ class ConsultorProfileController extends Controller
             $user->image = $path;
         }
 
-        $user->name = $request->name;
+        $nombre_completo = $request->name . ', ' . $request->apellido;
+        $nombre_completo = strtoupper($nombre_completo);
+
+        $user->name = $nombre_completo;
         $user->email = $request->email;
         $user->save();
 

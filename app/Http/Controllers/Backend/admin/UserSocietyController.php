@@ -6,78 +6,126 @@ use App\Models\UserSociety;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Models\Sociedad;
+use App\Models\Cliente;
 use App\Http\Controllers\Controller;
 
 class UserSocietyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $usuarios = Usuario::where('status', 'active')
-        ->where('role', 'user')
-        ->get()
-        ->map(function ($user) {
-            $nameParts = explode(',', $user->name, 2);
-            $user->nombre = isset($nameParts[0]) ? trim($nameParts[0]) : '';
-            $user->apellido = isset($nameParts[1]) ? trim($nameParts[1]) : '';
-            return $user;
-        });
+        // $usuarios = Usuario::where('role', 'user')
+        //     ->get()
+        //     ->map(function ($user) {
+        //         $nameParts = explode(',', $user->name, 2);
+        //         $user->nombre = trim($nameParts[0] ?? '');
+        //         $user->apellido = trim($nameParts[1] ?? '');
 
-        // Todas las sociedades disponibles para asignar en los modales
+        //         // Obtener cliente único desde user_society
+        //         $cliente = UserSociety::where('id_usuario', $user->id)
+        //     ->where('user_societies.estado', true) // 👈 tabla especificada
+        //     ->with('cliente')
+        //     ->join('clientes', 'user_societies.id_cliente', '=', 'clientes.id')
+        //     ->orderBy('clientes.descripcion', 'asc')
+        //     ->select('user_societies.*')
+        //     ->first();
+
+
+        //         $user->cliente_asignado = $cliente ? $cliente->cliente : null;
+
+        //         return $user;
+        //     });
+        $usuarios = Usuario::where('role', 'user')
+    ->get()
+    ->map(function ($user) {
+        $nameParts = explode(',', $user->name, 2);
+        $user->nombre = trim($nameParts[0] ?? '');
+        $user->apellido = trim($nameParts[1] ?? '');
+
+        $cliente = UserSociety::where('id_usuario', $user->id)
+            ->where('user_societies.estado', true)
+            ->with('cliente')
+            ->first();
+
+        $user->cliente_asignado = $cliente ? $cliente->cliente : null;
+
+        return $user;
+    })
+    ->sortBy(fn($user) => $user->cliente_asignado->descripcion ?? '');
+
+
+        $clientes = Cliente::where('estado', true)->get();
         $sociedades = Sociedad::where('estado', true)->get();
 
         $idclientes = UserSociety::where('estado', true)
-        ->with(['usuario', 'sociedad' => function ($query) {
-            $query->where('estado', true);
-        }])
-        ->get();
+            ->with(['usuario', 'cliente', 'sociedad' => function ($query) {
+                $query->where('estado', true);
+            }])
+            ->get();
 
-        return view('admin.userCliente.index', compact('usuarios', 'sociedades', 'idclientes'));
+        return view('admin.userCliente.index', compact('usuarios', 'sociedades', 'idclientes', 'clientes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function updateSociedades(Request $request, $id_usuario)
     {
-        //
-    }
+        $sociedades = json_decode($request->input('sociedades_json', '[]'), true);
 
-public function updateSociedades(Request $request, $id)
-{
-    $ids = json_decode($request->input('sociedades_json', '[]'), true);
-
-    if (!is_array($ids)) {
-        return back()->withErrors(['sociedades_json' => 'Error al procesar las sociedades.']);
-    }
-
-    // Desactivar todas las relaciones anteriores
-    UserSociety::where('id_cliente', $id)->update(['estado' => false]);
-
-    // Activar o crear nuevas
-    foreach ($ids as $idSoc) {
-        $rel = UserSociety::where('id_cliente', $id)->where('id_sociedad', $idSoc)->first();
-
-        if ($rel) {
-            $rel->estado = true;
-            $rel->save();
-        } else {
-            UserSociety::create([
-                'id_cliente' => $id,
-                'id_sociedad' => $idSoc,
-                'estado' => true
-            ]);
+        if (!is_array($sociedades) || empty($sociedades)) {
+            return back()->withErrors(['sociedades_json' => 'No se han enviado sociedades válidas.']);
         }
+
+        // Validar que todas las sociedades pertenezcan al mismo cliente
+        $clienteIds = [];
+
+        foreach ($sociedades as $soc) {
+            $sociedad = Sociedad::where('id', $soc['id_sociedad'] ?? null)->first();
+
+            if (!$sociedad || !isset($sociedad->id_cliente)) {
+                continue;
+            }
+
+            $clienteIds[] = $sociedad->id_cliente;
+        }
+
+        $clienteIds = array_unique($clienteIds);
+
+        if (count($clienteIds) !== 1) {
+            return redirect()->back()->with('error'
+                , 'Todas las sociedades deben pertenecer al mismo cliente.');
+        }
+
+        $id_cliente = $clienteIds[0];
+
+        // Eliminar asociaciones anteriores (soft delete)
+        UserSociety::where('id_usuario', $id_usuario)->update(['estado' => false]);
+
+        // Crear/actualizar nuevas asociaciones
+        foreach ($sociedades as $soc) {
+            $id_sociedad = $soc['id_sociedad'] ?? null;
+
+            if (!$id_sociedad) continue;
+
+            $rel = UserSociety::where('id_usuario', $id_usuario)
+                ->where('id_sociedad', $id_sociedad)
+                ->first();
+
+            if ($rel) {
+                $rel->update([
+                    'id_cliente' => $id_cliente,
+                    'estado' => true,
+                ]);
+            } else {
+                UserSociety::create([
+                    'id_usuario' => $id_usuario,
+                    'id_cliente' => $id_cliente,
+                    'id_sociedad' => $id_sociedad,
+                    'estado' => true,
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Sociedades actualizadas correctamente.');
     }
 
-    return redirect()->back()->with('success', 'Sociedades actualizadas correctamente.');
-}
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -89,7 +137,11 @@ public function updateSociedades(Request $request, $id)
             'password' => 'required|string|max:50',
         ]);
 
-        $name = $request->name_user . ' ' . $request->lastname_user;
+        $request->name_user = strtoupper($request->name_user);
+        $request->lastname_user = strtoupper($request->lastname_user);
+        $request->username = strtoupper($request->username);
+
+        $name = $request->name_user . ', ' . $request->lastname_user;
         $user = Usuario::create([
             'name' => $name,
             'username' => $request->username ?? null, 
@@ -102,25 +154,6 @@ public function updateSociedades(Request $request, $id)
         return redirect()->route('admin.user_society')->with('success', 'Usuario creado exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserSociety $userSociety)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserSociety $userSociety)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -132,6 +165,10 @@ public function updateSociedades(Request $request, $id)
         ]);
 
         $user = Usuario::findOrFail($id);
+        $request->nombre = strtoupper($request->nombre);
+        $request->apellido = strtoupper($request->apellido);
+        $request->username = strtoupper($request->username);
+
         $name = $request->nombre . ', ' . $request->apellido;
         $user->update([
             'name' => $name,
@@ -143,11 +180,10 @@ public function updateSociedades(Request $request, $id)
         return redirect()->route('admin.user_society')->with('success', 'Usuario actualizado exitosamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserSociety $userSociety)
+    public function getByCliente($id)
     {
-        //
+        $sociedades = Sociedad::where('id_cliente', $id)->select('id', 'nombre_sociedad')->get();
+        return response()->json($sociedades);
     }
+
 }

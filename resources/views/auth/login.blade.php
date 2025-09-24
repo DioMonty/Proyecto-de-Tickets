@@ -35,15 +35,28 @@
                         @csrf
                         <div class="mb-3">
                             <label for="email" class="form-label">Direccion de Correo electrónico</label>
-                            <input name="email" class="form-control @error('email') is-invalid @enderror" type="email" id="email" required value="{{ old('email') }}" autofocus>
+                            <input name="email" class="form-control @error('email') is-invalid @enderror" type="email" id="email" placeholder="Ingresa tu Correo Electronico" required value="{{ old('email') }}" autofocus>
                             @error('email')
                             <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <a href="{{ route('password.request') }}" class="text-muted float-end"><small>¿Olvidaste la contraseña?</small></a>
+                            <a href="{{ route('password.request') }}" class="text-muted float-end">
+                                <small>¿Olvidaste la contraseña?</small>
+                            </a>
                             <label for="password" class="form-label">Contraseña</label>
-                            <input name="password" class="form-control @error('password') is-invalid @enderror" type="password" id="password" required>
+                            <div class="input-group input-group-merge">
+                                <input name="password"
+                                    type="password"
+                                    id="password"
+                                    class="form-control @error('password') is-invalid @enderror"
+                                    placeholder="Ingresa tu Contraseña"
+                                    required>
+                                <div class="input-group-text" data-password="false" role="button" aria-label="Mostrar u ocultar contraseña">
+                                    <!-- Icono inicial: ojo cerrado -->
+                                    <i class="mdi mdi-eye-off password-eye"></i>
+                                </div>
+                            </div>
                             @error('password')
                             <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
@@ -75,6 +88,29 @@
 
     <script src="{{asset('backend/assets/js/vendor.min.js')}}"></script>
     <script src="{{asset('backend/assets/js/app.min.js')}}"></script>
+    
+    <script>
+        document.addEventListener('click', function(e) {
+            const toggle = e.target.closest('.input-group-text[data-password]');
+            if (!toggle) return;
+
+            const wrapper = toggle.closest('.input-group');
+            const input = wrapper ? wrapper.querySelector('input') : null;
+            const icon = toggle.querySelector('i');
+            if (!input || !icon) return;
+
+            const isShown = toggle.getAttribute('data-password') === 'true';
+            input.type = isShown ? 'password' : 'text';
+            toggle.setAttribute('data-password', String(!isShown));
+
+            // Alternar clases del icono MDI
+            if (isShown) {
+                icon.classList.replace('mdi-eye', 'mdi-eye-off'); // visible → oculto
+            } else {
+                icon.classList.replace('mdi-eye-off', 'mdi-eye'); // oculto → visible
+            }
+        });
+    </script>
 
 </body>
 

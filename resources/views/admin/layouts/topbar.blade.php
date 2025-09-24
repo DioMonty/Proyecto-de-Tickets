@@ -41,21 +41,23 @@
 
     <ul class="topbar-menu d-flex align-items-center gap-3">
         <li class="d-none d-sm-inline-block">
-            <a class="nav-link" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">
-                <i class="ri-settings-3-line font-22"></i>
-            </a>
+            <div data-bs-toggle="tooltip" data-bs-placement="left" title="Personalizar Interfaz">
+                <a class="nav-link" data-bs-toggle="offcanvas" href="#theme-settings-offcanvas">
+                    <i class="ri-settings-3-line font-22"></i>
+                </a>
+            </div>
         </li>
 
         <li class="d-none d-sm-inline-block">
             <div class="nav-link" id="light-dark-mode" data-bs-toggle="tooltip" data-bs-placement="left"
-                title="Theme Mode">
+                title="Modo Oscuro">
                 <i class="ri-moon-line font-22"></i>
             </div>
         </li>
 
 
         <li class="d-none d-md-inline-block">
-            <a class="nav-link" data-toggle="fullscreen">
+            <a class="nav-link" data-toggle="fullscreen" data-bs-toggle="tooltip" data-bs-placement="left" title="Pantalla Completa">
                 <i class="ri-fullscreen-line font-22"></i>
             </a>
         </li>
@@ -69,7 +71,7 @@
                 </span>
                 <span class="d-lg-flex flex-column gap-1 d-none">
                     <h5 class="my-0">{{Auth::user()->name}}</h5>
-                    <h6 class="my-0 fw-normal">{{Auth::user()->role}}</h6>
+                    <h6 class="my-0 fw-normal text-uppercase">{{Auth::user()->role}}</h6>
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
@@ -84,18 +86,13 @@
                     <span>Mi Cuenta</span>
                 </a>
 
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item">
-                    <i class="mdi mdi-account-edit me-1"></i>
-                    <span>Configuraciones</span>
-                </a>
 
                 <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item">
+                <a href="{{ route('admin.soporte') }}" class="dropdown-item">
                     <i class="mdi mdi-lifebuoy me-1"></i>
                     <span>Soporte</span>
                 </a>
-
+            
 
                 <!-- item-->
                 <form method="POST" action="{{ route('logout') }}">

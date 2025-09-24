@@ -56,6 +56,15 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellidos Completos</label>
+                            <input class="form-control" type="text" id="apellido" name="apellido" value="{{ old('apellido') }}" required>
+                            @error('apellido')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
+                        <div class="mb-3">
                             <label for="email" class="form-label">Dirección de correo electrónico</label>
                             <input class="form-control" type="email" id="email" name="email" value="{{ old('email') }}" required>
                             @error('email')
@@ -111,9 +120,9 @@
         <!-- Auth fluid right content -->
         <div class="auth-fluid-right text-center">
             <div class="auth-user-testimonial">
-                <h2 class="mb-3">¡Nos encanta este diseño!</h2>
-                <p class="lead"><i class="mdi mdi-format-quote-open"></i> Es una plantilla elegante. ¡Nos encanta! <i class="mdi mdi-format-quote-close"></i></p>
-                <p>- Usuario de Hyper Admin</p>
+                <h2 class="mb-3">Lidera la transformación digital con SAP</h2>
+                <p class="lead"><i class="mdi mdi-format-quote-open"></i>  Especialistas en consultoría SAP. <i class="mdi mdi-format-quote-close"></i></p>
+                <p>- Portal de Rensar Consulting</p>
             </div>
         </div>
         <!-- end Auth fluid right content -->

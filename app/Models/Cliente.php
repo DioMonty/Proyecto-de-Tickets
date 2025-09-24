@@ -18,5 +18,9 @@ class Cliente extends Model
         'email',
         'estado',
     ];
+    public function modulos()
+    {
+        return $this->hasMany(ClienteModulo::class, 'id_cliente');
+    }
 
 }

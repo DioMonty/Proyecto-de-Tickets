@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Dashboard | Rensar Consulting</title>
+    <title>@yield('title', 'Dashboard | Rensar Consulting')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -28,9 +28,26 @@
     <!-- Plugin css -->
     <link href="{{asset('backend/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
 
+    <!-- Datatables CSS -->
+    <link href="{{ asset('backend/assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
+    <!-- Pre-loader -->
+    <div id="preloader">
+        <div id="status">
+            <div class="bouncing-loader">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader-->
     <!-- Begin page -->
     <div class="wrapper">
 
@@ -854,16 +871,21 @@
     <!-- Vendor js -->
     <script src="{{asset('backend/assets/js/vendor.min.js')}}"></script>
 
+    <!-- Datatables -->
+    <script src="{{ asset('backend/assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/pages/demo.datatable-init.js') }}"></script>
+
     <!-- Daterangepicker js -->
     <script src="{{asset('backend/assets/vendor/daterangepicker/moment.min.js')}}"></script>
     <script src="{{asset('backend/assets/vendor/daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{ asset('backend/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+
 
     <!-- Dashboard App js -->
     <script src="{{asset('backend/assets/js/pages/demo.dashboard.js')}}"></script>
-
-    <!-- Projects Analytics Dashboard App js -->
-    <script src="{{asset('backend/assets/js/pages/demo.dashboard-projects.js')}}"></script>
-
 
     <!-- Projects Analytics Dashboard App js -->
     <script src="{{asset('backend/assets/js/pages/demo.dashboard-projects.js')}}"></script>

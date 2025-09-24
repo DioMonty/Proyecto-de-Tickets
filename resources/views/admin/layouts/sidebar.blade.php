@@ -41,30 +41,27 @@
     <!--- Sidemenu -->
     <ul class="side-nav">
 
-        <li class="side-nav-title">Navegacion</li>
+        <li class="side-nav-title">Navegación Principal</li>
 
         <li class="side-nav-item">
             <a href="{{ route('admin.dashboard') }}" class="side-nav-link">
                 <i class="uil-home-alt"></i>
-                <span class="badge bg-success float-end">1</span>
+                <span class="badge bg-danger float-end">1</span>
                 <span> Dashboards </span>
             </a>
         </li>
 
 
-        <li class="side-nav-title">Apps</li>
+        <li class="side-nav-title">Operaciones</li>
         <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false"
                 aria-controls="sidebarProjects" class="side-nav-link">
-                <i class="uil-briefcase"></i>
+                <i class="uil-ticket"></i>
                 <span> Gestion de Tickets </span>
                 <span class="menu-arrow"></span>
             </a>
             <div class="collapse" id="sidebarProjects">
                 <ul class="side-nav-second-level">
-                    <li>
-                        <a href="{{route('admin.ticket')}}">Ver Tickets</a>
-                    </li>
                     <li>
                         <a href="{{route('admin.ticket.create')}}">Crear Tickets</a>
                     </li>
@@ -75,7 +72,7 @@
         <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarCrm" aria-expanded="false" aria-controls="sidebarCrm"
                 class="side-nav-link">
-                <i class="uil uil-tachometer-fast"></i>
+                <i class="uil-users-alt"></i>
                 <span> Gestion de Usuarios </span>
                 <span class="menu-arrow"></span>
             </a>
@@ -99,6 +96,9 @@
                 </ul>
             </div>
         </li>
+        
+        
+        <li class="side-nav-title">Resultados y Analisis</li>
         <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false"
                 aria-controls="sidebarTasks" class="side-nav-link">
@@ -109,27 +109,31 @@
             <div class="collapse" id="sidebarTasks">
                 <ul class="side-nav-second-level">
                     <li>
-                        <a href="apps-tasks.html">Lista</a>
+                        <a href="{{route('admin.ticket')}}">Bandeja de Estados</a>
                     </li>
                     <li>
-                        <a href="apps-tasks-details.html">Detalles de Lista</a>
+                        <a href="{{route('admin.factura.ticket')}}">Tickets por Facturar</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.ticket.facturado')}}">Tickets Facturados</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.ticket.cancelado')}}">Back Log</a>
                     </li>
                 </ul>
             </div>
         </li>
-        <li class="side-nav-title">Catalogos</li>
+        
+        <li class="side-nav-title">Configuraciones</li>
         <li class="side-nav-item">
             <a data-bs-toggle="collapse" href="#sidebarLayouts" aria-expanded="false"
                 aria-controls="sidebarLayouts" class="side-nav-link">
                 <i class="uil-window"></i>
-                <span> Tablas Maestras </span>
+                <span> Catalogos </span>
                 <span class="menu-arrow"></span>
             </a>
             <div class="collapse" id="sidebarLayouts">
                 <ul class="side-nav-second-level">
-                    <li>
-                        <a href="pages-asignaciones.html">Asignaciones</a>
-                    </li>
                     <li>
                         <a href="{{route('admin.modulo')}}">Modulos</a>
                     </li>
@@ -139,6 +143,15 @@
                 </ul>
             </div>
         </li>
+        
+        <!-- Help Box -->
+        <div class="help-box text-white text-center">
+            <img src="{{asset('backend/assets/images/svg/features-2.svg')}}" height="90" alt="Helper Icon Image" />
+            <h5 class="mt-3">Conoce más de Rensar Consulting</h5>
+            <p class="mb-3">Consulta información oficial y recursos en línea de manera rápida y segura.</p>
+            <a href="https://www.rensar.biz/wp/" target="_blank" class="btn btn-success btn-sm">Ir al sitio web</a>
+        </div>
+        <!-- end Help Box -->
 
     </ul>
     <!--- End Sidemenu -->

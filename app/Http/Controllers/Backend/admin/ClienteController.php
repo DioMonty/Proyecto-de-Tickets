@@ -3,34 +3,21 @@
 namespace App\Http\Controllers\Backend\admin;
 
 use App\Models\Cliente;
+use App\Models\Modulo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ClienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        // Fetch all c  lients
-        $clientes = Cliente::all();
-
-        // Return the view with the list of clients
-        return view('admin.cliente.index', compact('clientes'));
+        $clientes = Cliente::with([
+            'modulos'
+        ])->get();
+        $modulos = Modulo::where('estado', true)->get();
+        return view('admin.cliente.index', compact('clientes','modulos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Validate the request data
@@ -42,32 +29,24 @@ class ClienteController extends Controller
             'email' => 'nullable|email|max:255',
         ]);
 
+        $descripcion = strtoupper($request->descripcion);
+        $razon_social = strtoupper($request->razon_social);
+        $direccion = strtoupper($request->direccion);
+
         // Create a new client
-        Cliente::create($request->all());
+        Cliente::create([
+            'descripcion' => $descripcion,
+            'ruc' => $request->ruc,
+            'razon_social' => $razon_social,
+            'direccion' => $direccion,
+            'email' => $request->email,
+            'estado' => true,
+        ]);
 
         // Redirect back with success message
         return redirect()->route('admin.cliente')->with('success', 'Cliente created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cliente $cliente)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cliente $cliente)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $cliente = Cliente::findOrFail($id);
@@ -80,11 +59,15 @@ class ClienteController extends Controller
             'email' => 'nullable|email|max:255',
         ]);
 
+        $descripcion = strtoupper($request->descripcion);
+        $razon_social = strtoupper($request->razon_social);
+        $direccion = strtoupper($request->direccion);
+
         $cliente->update([
-            'descripcion' => $request->descripcion,
+            'descripcion' => $descripcion,
             'ruc' => $request->ruc,
-            'razon_social' => $request->razon_social,
-            'direccion' => $request->direccion,
+            'razon_social' => $razon_social,
+            'direccion' => $direccion,
             'email' => $request->email,
         ]);
 
@@ -92,11 +75,12 @@ class ClienteController extends Controller
         return redirect()->route('admin.cliente')->with('success', 'Cliente updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cliente $cliente)
+    public function cambiarEstado(Request $request, $id)
     {
-        //
+        $modulo = Cliente::findOrFail($id);
+        $modulo->estado = filter_var($request->estado, FILTER_VALIDATE_BOOLEAN);
+        $modulo->save();
+
+        return response()->json(['success' => true, 'estado' => $modulo->estado]);
     }
 }

@@ -69,7 +69,8 @@
                 </span>
                 <span class="d-lg-flex flex-column gap-1 d-none">
                     <h5 class="my-0">{{Auth::user()->name}}</h5>
-                    <h6 class="my-0 fw-normal">{{Auth::user()->role}}</h6>
+                    <h6 class="my-0 fw-normal text-uppercase">{{ Auth::user()->role }}</h6>
+
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
@@ -84,14 +85,7 @@
                     <span>Mi Cuenta</span>
                 </a>
 
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item">
-                    <i class="mdi mdi-account-edit me-1"></i>
-                    <span>Configuraciones</span>
-                </a>
-
-                <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item">
+                <a href="{{ route('consultor.soporte') }}" class="dropdown-item">
                     <i class="mdi mdi-lifebuoy me-1"></i>
                     <span>Soporte</span>
                 </a>

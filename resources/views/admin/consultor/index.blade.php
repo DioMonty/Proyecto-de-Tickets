@@ -1,5 +1,7 @@
 @extends('admin.layouts.master')
 
+@section('title', 'Consultor | Rensar Consulting')
+
 @section('content')
 <div class="content">
     <!-- Start Content-->
@@ -10,17 +12,16 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Rensar Consuling</a>
-                            </li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Gestión de
-                                    Usuarios</a></li>
-                            <li class="breadcrumb-item active">Consultor</li>
+                        <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="uil-home-alt"></i> Gestion de Usuario</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Consultor</li>
                         </ol>
+                    </nav>
                     </div>
                     <h4 class="page-title">Consultor</h4>
                     <p class="mt-2 mb-3 text-muted">
-                        Permite visualizar y gestionar los diferentesconsultores ABAP y Funcionales
+                        Permite visualizar y gestionar los diferentes consultores ABAP y Funcionales
                     </p>
                 </div>
             </div>
@@ -42,22 +43,31 @@
         <table id="basic-datatable" class="table dt-responsive nowrap w-100">
             <thead>
                 <tr>
+                    <th class="all">#</th>
                     <th>Nombre Consultor</th>
                     <th>Celular</th>
                     <th>RUC</th>
                     <th>Banco</th>
+                    <th>Costo Abap</th>
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th>Activo</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($consultores as $consultor)
                 <tr>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $consultor->usuario->name }}</td>
                     <td>{{ $consultor->telefono }}</td>
                     <td>{{ $consultor->ruc }}</td>
                     <td>{{ $consultor->banco }}</td>
+                    @if($consultor->roles->contains('detalle', 'abap'))
+                    <td>{{ $consultor->costo }}</td>
+                    @else
+                    <td></td>
+                    @endif
                     <td>
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tipo-consultor-modal-{{ $consultor->id }}">Tipo de Consultor</button>
                     </td>
@@ -76,33 +86,42 @@
                     <td class="table-action">
                         <a href="#" class="action-icon" data-bs-toggle="modal"
                             data-bs-target="#editar-modal-{{ $consultor->id }}">
-                            <i class="mdi mdi-pencil"></i>
-                        </a>
-                        <a href="javascript: void(0);" class="action-icon" data-bs-toggle="modal"
-                            data-bs-target="#warning-alert-modal-{{ $consultor->id }}">
-                            <i class="mdi mdi-delete"></i>
+                            <i class="mdi mdi-pencil" data-bs-toggle="tooltip" data-bs-placement="left"
+                            title="Editar"></i>
                         </a>
                         <a href="javascript: void(0);" class="action-icon" data-bs-toggle="modal"
                             data-bs-target="#detalle-modal-{{ $consultor->id }}">
-                            <i class="mdi mdi-eye"></i>
+                            <i class="mdi mdi-eye" data-bs-toggle="tooltip" data-bs-placement="left"
+                            title="Detalle"></i>
                         </a>
+                    </td>
+                    <td class="table-action">
+                        <div class="form-check form-switch d-flex ">
+                            <input type="checkbox"
+                                class="form-check-input cambiar-estado"
+                                data-id="{{ $consultor->id }}"
+                                id="switch03-{{ $consultor->id }}"
+                                {{ $consultor->estado ? 'checked' : '' }}>
+                            <label for="switch03-{{ $consultor->id }}" class="switch-label mb-0 ms-2">
+                                {{ $consultor->estado ? 'Sí' : 'No' }}
+                            </label>
+                        </div>
                     </td>
                 </tr>
                 @stack('scripts')
                 <div id="modulo-modal-{{ $consultor->id }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
                             <form action="{{ route('admin.consultor.modulo.store', $consultor->id) }}" method="POST">
                                 @csrf
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Seleccionar Tipo de Consultor</h5>
+                                    <h5 class="modal-title">Asignar Modulo</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row fw-bold mb-2">
-                                        <div class="col-4">Módulo</div>
-                                        <div class="col-4">Costo Funcional</div>
-                                        <div class="col-4">Costo Cliente</div>
+                                        <div class="col-6">Módulo</div>
+                                        <div class="col-6">Costo Funcional</div>
                                     </div>
 
                                     @foreach($modulos as $modulo)
@@ -115,7 +134,7 @@
 
                                     <div class="row align-items-center mb-2">
                                         {{-- Checkbox + label --}}
-                                        <div class="col-4">
+                                        <div class="col-6">
                                             <div class="form-check">
                                                 <input class="form-check-input modulo-checkbox"
                                                     type="checkbox"
@@ -131,7 +150,7 @@
                                         </div>
 
                                         {{-- Costo funcional --}}
-                                        <div class="col-4">
+                                        <div class="col-6">
                                             <input type="number"
                                                 class="form-control form-control-sm costo-funcional"
                                                 name="costo_funcional[{{ $modulo->id }}]"
@@ -141,24 +160,10 @@
                                                 value="{{ $mostrarValor ? $moduloSeleccionado->costo_funcional : '' }}"
                                                 {{ $checked ? '' : 'disabled' }}>
                                         </div>
-
-                                        {{-- Costo cliente --}}
-                                        <div class="col-4">
-                                            <input type="number"
-                                                class="form-control form-control-sm costo-cliente"
-                                                name="costo_cliente[{{ $modulo->id }}]"
-                                                placeholder="0.00"
-                                                step="0.01"
-                                                style="width: 100%;"
-                                                value="{{ $mostrarValor ? $moduloSeleccionado->costo_cliente : '' }}"
-                                                {{ $checked ? '' : 'disabled' }}>
-                                        </div>
                                     </div>
                                     @endforeach
 
                                 </div>
-
-
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
@@ -178,14 +183,11 @@
                             checkbox.addEventListener('change', function() {
                                 const row = checkbox.closest('.row');
                                 const costoFuncional = row.querySelector('.costo-funcional');
-                                const costoCliente = row.querySelector('.costo-cliente');
 
                                 if (checkbox.checked) {
                                     costoFuncional.removeAttribute('disabled');
-                                    costoCliente.removeAttribute('disabled');
                                 } else {
                                     costoFuncional.setAttribute('disabled', true);
-                                    costoCliente.setAttribute('disabled', true);
                                 }
                             });
                         });
@@ -193,38 +195,12 @@
                 </script>
                 @endpush
 
-
-                <!-- Modal de confirmación eliminar -->
-                <div id="warning-alert-modal-{{ $consultor->id }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-body p-4">
-                                <div class="text-center">
-                                    <i class="ri-alert-line h1 text-warning"></i>
-                                    <h4 class="mt-2">¿Estás Seguro?</h4>
-                                    <p class="mt-3">
-                                        Esta acción resultará en la eliminación permanente de la información
-                                        seleccionada.
-                                        Una vez eliminada, no será posible recuperarla.
-                                    </p>
-                                    <form method="POST" action="{{ route('admin.consultor.destroy', $consultor->id) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-warning my-2">Confirmar</button>
-                                        <button type="button" class="btn btn-light my-2" data-bs-dismiss="modal">Cancelar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Modal editar usuario -->
                 <div id="editar-modal-{{ $consultor->id }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-lg"> <!-- Hacemos el modal más ancho -->
                         <div class="modal-content">
                             <div class="modal-header text-center">
-                                <h4 class="modal-title" style="color: black;">Editar Consultor</h4>
+                                <h4 class="modal-title">Editar Consultor</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -268,6 +244,19 @@
                                             <input class="form-control" type="text" name="cta_detraccion" value="{{ $consultor->cta_detraccion }}"
                                                 placeholder="Cta. Detracciones">
                                         </div>
+                                        @if($consultor->roles->contains('detalle', 'abap'))
+                                        <div class="col-4">
+                                            <label for="cta_detracciones" class="form-label">Costo Abap</label>
+                                            <input type="number"
+                                                class="form-control form-control-sm costo-cliente"
+                                                name="abap_costo"
+                                                placeholder="0.00"
+                                                step="0.01"
+                                                style="width: 100%;"
+                                                value="{{ $consultor->costo }}">
+                                        </div>
+                                        @else
+                                        @endif
                                     </div>
                                     <div class="modal-footer d-flex justify-content-center">
                                         <button type="button" class="btn btn-light"
@@ -280,51 +269,61 @@
                     </div>
                 </div>
 
-                <div id="detalle-modal-{{ $consultor->id }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header text-center">
-                                <h4 class="modal-title" style="color: black;">Detalle del Consultor</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row ps-3 pe-3">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">Consultor</label>
-                                        <div class="border rounded px-3 py-2 bg-light">{{ $consultor->usuario->name }}</div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">Celular</label>
-                                        <div class="border rounded px-3 py-2 bg-light">{{ $consultor->telefono }}</div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">RUC</label>
-                                        <div class="border rounded px-3 py-2 bg-light">{{ $consultor->ruc }}</div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">Banco</label>
-                                        <div class="border rounded px-3 py-2 bg-light">{{ $consultor->banco }}</div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">Cta Banco</label>
-                                        <div class="border rounded px-3 py-2 bg-light">{{ $consultor->cta_banco }}</div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">Cta. Banco CCI</label>
-                                        <div class="border rounded px-3 py-2 bg-light">{{ $consultor->cta_cci }}</div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold">Cta. Detracciones</label>
-                                        <div class="border rounded px-3 py-2 bg-light">{{ $consultor->cta_detraccion }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer d-flex justify-content-center">
-                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
+                <!-- Modal detalle consultor -->
+<div id="detalle-modal-{{ $consultor->id }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Detalle del Consultor</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ps-3 pe-3 row">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Consultor</label>
+                        <input type="text" class="form-control bg-light border-0" value="{{ $consultor->usuario->name }}" readonly tabindex="-1">
                     </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Celular</label>
+                        <input type="text" class="form-control bg-light border-0" value="{{ $consultor->telefono }}" readonly tabindex="-1">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">RUC</label>
+                        <input type="text" class="form-control bg-light border-0" value="{{ $consultor->ruc }}" readonly tabindex="-1">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Banco</label>
+                        <input type="text" class="form-control bg-light border-0" value="{{ $consultor->banco }}" readonly tabindex="-1">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Cta. Banco</label>
+                        <input type="text" class="form-control bg-light border-0" value="{{ $consultor->cta_banco }}" readonly tabindex="-1">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Cta. Banco CCI</label>
+                        <input type="text" class="form-control bg-light border-0" value="{{ $consultor->cta_cci }}" readonly tabindex="-1">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Cta. Detracciones</label>
+                        <input type="text" class="form-control bg-light border-0" value="{{ $consultor->cta_detraccion }}" readonly tabindex="-1">
+                    </div>
+
                 </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                 <!-- Modal Tipo de Consultor -->
                 <div id="tipo-consultor-modal-{{ $consultor->id }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog">
@@ -391,4 +390,31 @@
             });
         });
     </script>
+
+    <script>
+    $(document).ready(function () {
+        $('.cambiar-estado').change(function () {
+            var checkbox = $(this);
+            var id = checkbox.data('id');
+            var estado = checkbox.is(':checked');
+            var label = checkbox.next('.switch-label');
+
+            label.text(estado ? 'Sí' : 'No');
+
+            $.ajax({
+                url: '{{ url("admin/consultor/estado") }}/' + id,
+                method: 'POST',
+                data: {
+                    estado: estado,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                error: function (xhr) {
+                    alert('Error al actualizar el estado');
+                    checkbox.prop('checked', !estado); // revertir
+                    label.text(!estado ? 'Sí' : 'No');
+                }
+            });
+        });
+    });
+</script>
     @endsection

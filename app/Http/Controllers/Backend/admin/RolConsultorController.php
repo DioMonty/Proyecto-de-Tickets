@@ -8,25 +8,6 @@ use App\Http\Controllers\Controller;
 
 class RolConsultorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request, $idConsultor)
     {
         $tipos = ['abap' => $request->has('tipo_abap'), 'funcional' => $request->has('tipo_funcional')];
@@ -49,7 +30,7 @@ class RolConsultorController extends Controller
                 }
             } else {
                 if ($rol) {
-                    $rol->estado = false; // eliminaciÃ³n lÃ³gica
+                    $rol->estado = false; // eliminaci¨®n l¨®gica
                     $rol->save();
                 }
             }
@@ -58,35 +39,4 @@ class RolConsultorController extends Controller
         return redirect()->route('admin.consultor')->with('success', 'Roles actualizados correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(RolConsultor $rolConsultor)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(RolConsultor $rolConsultor)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, RolConsultor $rolConsultor)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RolConsultor $rolConsultor)
-    {
-        //
-    }
 }

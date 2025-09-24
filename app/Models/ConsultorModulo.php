@@ -14,7 +14,6 @@ class ConsultorModulo extends Model
         'id_consultor',
         'id_modulo',
         'costo_funcional',
-        'costo_cliente',
         'estado',
     ];
     public function consultor()

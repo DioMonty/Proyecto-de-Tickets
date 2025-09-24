@@ -41,56 +41,45 @@
                 <!--- Sidemenu -->
                 <ul class="side-nav">
 
-                    <li class="side-nav-title">Navegacion</li>
+                    <li class="side-nav-title">Navegacion Principal</li>
 
                     <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false"
-                            aria-controls="sidebarDashboards" class="side-nav-link">
+                        <a href="{{ route('consultor.dashboard') }}" class="side-nav-link">
                             <i class="uil-home-alt"></i>
-                            <span class="badge bg-success float-end">1</span>
+                            <span class="badge bg-danger float-end">1</span>
                             <span> Dashboards </span>
                         </a>
                     </li>
 
-                    <li class="side-nav-title">Apps</li>
+                    <li class="side-nav-title">Resultados y Analisis</li>
                     <li class="side-nav-item">
                         <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false"
                             aria-controls="sidebarProjects" class="side-nav-link">
-                            <i class="uil-briefcase"></i>
-                            <span> Gestion de Tickets </span>
+                            <i class="uil-clipboard-alt"></i>
+                            <span> Reportes </span>
                             <span class="menu-arrow"></span>
                         </a>
                         <div class="collapse" id="sidebarProjects">
                             <ul class="side-nav-second-level">
                                 <li>
-                                    <a href="apps-projects-list.html">Ver Tickets</a>
+                                    <a href="{{route('consultor.ticket.index')}}">Ver Tickets</a>
                                 </li>
                                 <li>
-                                    <a href="apps-projects-add.html">Crear Tickets</a>
-                                </li>
-
-
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="side-nav-item">
-                        <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false"
-                            aria-controls="sidebarTasks" class="side-nav-link">
-                            <i class="uil-clipboard-alt"></i>
-                            <span> Reportes </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="sidebarTasks">
-                            <ul class="side-nav-second-level">
-                                <li>
-                                    <a href="apps-tasks.html">Lista</a>
-                                </li>
-                                <li>
-                                    <a href="apps-tasks-details.html">Detalles de Lista</a>
+                                    <a href="{{route('consultor.ticket.all.index')}}">Todos los Tickets</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
+
+                    <!-- Help Box -->
+                    <div class="help-box text-white text-center">
+                        <img src="{{asset('backend/assets/images/svg/features-2.svg')}}" height="90" alt="Helper Icon Image" />
+                        <h5 class="mt-3">Conoce más de Rensar Consulting</h5>
+                        <p class="mb-3">Consulta información oficial y recursos en línea de manera rápida y segura.</p>
+                        <a href="https://www.rensar.biz/wp/" target="_blank" class="btn btn-success btn-sm">Ir al sitio web</a>
+                    </div>
+                    <!-- end Help Box -->
+                    
                 </ul>
                 <!--- End Sidemenu -->
 
